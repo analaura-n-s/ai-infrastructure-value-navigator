@@ -339,7 +339,7 @@ function renderKpis(stage){
 }
 function strategyMd(dynE){
   const l=a=>a.map(x=>"- "+x).join("\n");
-  return `# Strategic Recommendations: The Enterprise AI Infrastructure Adoption Gap\n_Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA._\n\n## Key findings\n${FINDINGS.map((f,i)=>`### F${i+1}. ${f.t}\n- Type: ${KINDS[f.kind]} · Evidence status: ${EV[f.ev].n} · Confidence: ${f.conf}\n- Evidence: ${f.dyn?dynE[f.dyn]:f.e} ${f.src.map(s=>`[${s}]`).join(" ")}\n- Business implication: ${f.biz}\n- PMM implication: ${f.pmm}\n- Limitation: ${f.lim}\n`).join("\n")}\n## Opportunities (proposed scores, 1 to 5)\n${OPPORTUNITIES.map((o,i)=>{ const s=oppScores[o.id]; return `${i+1}. **${o.t}**: ${o.d} (impact ${impactOf(s).toFixed(1)}, effort ${s.cx}, evidence ${s.es}; supported by ${o.f.map(n=>"F"+n).join(", ")})`; }).join("\n")}\n\n## 90-day roadmap\n${l(ROADMAP.map(r=>`Days ${r.s} to ${r.e}: ${r.t} (owner: ${r.o}; success: ${r.m})`))}\n\n## KPI framework\n${l(KPI_FRAMEWORK.map(k=>`${k.st}: ${k.k} = ${k.f} (${k.ds}; ${k.fr}; ${k.li})`))}\n\n## Sources\n${[...new Set(FINDINGS.flatMap(f=>f.src))].map(id=>`- [${id}] ${SRC[id].title}, ${SRC[id].pub}, ${fmtDate(SRC[id].date)}. ${SRC[id].url}`).join("\n")}\n`;
+  return `# Strategic Recommendations: The Enterprise AI Infrastructure Adoption Gap\n_Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA._\n\n## Key findings\n${FINDINGS.map((f,i)=>`### F${i+1}. ${f.t}\n- Type: ${KINDS[f.kind]} · Evidence status: ${EV[f.ev].n} · Confidence: ${f.conf}\n- Evidence: ${f.dyn?dynE[f.dyn]:f.e} ${f.src.map(s=>`[${s}]`).join(" ")}\n- Business implication: ${f.biz}\n- PMM implication: ${f.pmm}\n- Limitation: ${f.lim}\n`).join("\n")}\n## Opportunities (proposed scores, 1 to 5)\n${OPPORTUNITIES.map((o,i)=>{ const s=oppScores[o.id]; return `${i+1}. **${o.t}**: ${o.d} (impact ${impactOf(s).toFixed(1)}, effort ${s.cx}, evidence ${s.es}; supported by ${o.f.map(n=>"F"+n).join(", ")})`; }).join("\n")}\n\n## 90-day roadmap\n${l(ROADMAP.map(r=>`Days ${r.s} to ${r.e}: ${r.t} (owner: ${r.o}; success: ${r.m})`))}\n\n## KPI framework\n${l(KPI_FRAMEWORK.map(k=>`${k.st}: ${k.k} = ${k.f} (${k.ds}; ${k.fr}; ${k.li})`))}\n\n## Sources\n${[...new Set(FINDINGS.flatMap(f=>f.src))].map(id=>`- [${id}] ${SRC[id].title}, ${SRC[id].pub}, ${fmtDate(SRC[id].date)}. ${SRC[id].url}`).join("\n")}\n`;
 }
 
 /* ---------- Messaging Framework ---------- */
@@ -373,7 +373,7 @@ function initFramework(){
 /* ---------- Asset Library ---------- */
 const refLinks = t => esc(t).replace(/\[([A-Z0-9]{2,8})\]/g, (m,id)=>SRC[id]?`<a class="mono tiny" href="${esc(SRC[id].url)}" target="_blank" rel="noopener noreferrer" title="${esc(SRC[id].title)}">[${id}]</a>`:m);
 function assetMd(a){ const ids=[...new Set(a.sections.flatMap(s=>(s[1].match(/\[([A-Z0-9]{2,8})\]/g)||[]).map(x=>x.slice(1,-1))))].filter(id=>SRC[id]);
-  return `# ${a.t}\n_Audience: ${a.aud} · Format: ${a.fmt}_\n\n> ${CONCEPT_NOTE}\n\n`+a.sections.map(s=>`## ${s[0]}\n${s[1]}\n`).join("\n")+(ids.length?`\n## Sources\n${ids.map(id=>`- [${id}] ${SRC[id].title}, ${SRC[id].pub}, ${fmtDate(SRC[id].date)}. ${SRC[id].url}`).join("\n")}\n`:"")+`\n---\nIndependent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.\n`; }
+  return `# ${a.t}\n_Audience: ${a.aud} · Format: ${a.fmt}_\n\n> ${CONCEPT_NOTE}\n\n`+a.sections.map(s=>`## ${s[0]}\n${s[1]}\n`).join("\n")+(ids.length?`\n## Sources\n${ids.map(id=>`- [${id}] ${SRC[id].title}, ${SRC[id].pub}, ${fmtDate(SRC[id].date)}. ${SRC[id].url}`).join("\n")}\n`:"")+`\n---\nIndependent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.\n`; }
 function initAssets(){
   const st = store.get("assets", {id:"onepager"});
   $("#assets-body").innerHTML = `<div class="lib">
@@ -385,7 +385,7 @@ function initAssets(){
     $$("#libList button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.id===a.id));
     $("#libDoc").innerHTML = `<article class="doc"><div class="doc-head"><div><div class="concept">Independent concept · not NVIDIA material</div><h3>${esc(a.t)}</h3><div class="small muted">Audience: ${esc(a.aud)} · Format: ${esc(a.fmt)}</div></div></div>
       ${a.sections.map(s=>`<div class="doc-sec"><h4>${esc(s[0])}</h4><div style="white-space:pre-wrap">${refLinks(s[1])}</div></div>`).join("")}
-      <p class="tiny dim" style="margin-top:14px;border-top:1px solid var(--line);padding-top:10px">${esc(CONCEPT_NOTE)} Created by Ana Laura Nascimento Silva, 2026.</p></article>`; };
+      <p class="tiny dim" style="margin-top:14px;border-top:1px solid var(--line);padding-top:10px">${esc(CONCEPT_NOTE)} Created by Ana Laura Nascimento, 2026.</p></article>`; };
   $("#libList").onclick = e=>{ const b=e.target.closest("[data-id]"); if(b) render(b.dataset.id); };
   $("#libCopy").onclick = ()=>copyText(assetMd(ASSETS.find(x=>x.id===st.id)));
   $("#libMd").onclick = ()=>{ const a=ASSETS.find(x=>x.id===st.id); download(a.id+"-concept.md", assetMd(a), "text/markdown"); };
@@ -540,7 +540,7 @@ function renderLog(){
   $("#logTbl").onclick = e=>{ const ed=e.target.closest("[data-le]"); if(ed){ editLog(aiLog.find(r=>r.id===ed.dataset.le)); return; } const d=e.target.closest("[data-ld]"); if(d) confirmModal("Delete this log entry?","The entry is removed from this browser.","Delete",()=>{ aiLog=aiLog.filter(r=>r.id!==d.dataset.ld); renderLog(); }); };
 }
 function editLog(r){
-  const d = r || {id:"lu"+Date.now().toString(36), date:new Date().toISOString().slice(0,10), tool:"ChatGPT", task:"", input:"", output:"", verify:"", edits:"", by:"Ana Laura Nascimento Silva"};
+  const d = r || {id:"lu"+Date.now().toString(36), date:new Date().toISOString().slice(0,10), tool:"ChatGPT", task:"", input:"", output:"", verify:"", edits:"", by:"Ana Laura Nascimento"};
   const F=[["date","Date"],["tool","Tool"],["task","Task"],["input","Input (what you gave the tool)"],["output","Output (what it produced)"],["verify","Verification performed"],["edits","Human edits"],["by","Logged by"]];
   openModal(`<h3 id="modalTitle">${r?"Edit":"Add"} log entry</h3><div class="grid g2" style="gap:0 12px">${F.map(([k,l])=>`<div class="field ${["task","input","output","verify","edits"].includes(k)?"full":""}"><label class="fl" for="lg-${k}">${esc(l)}</label>${["input","output","verify","edits"].includes(k)?`<textarea id="lg-${k}" style="min-height:54px">${esc(d[k])}</textarea>`:`<input type="text" id="lg-${k}" value="${esc(d[k])}">`}</div>`).join("")}</div><div class="err" id="lg-err" role="alert"></div><div class="btn-row" style="justify-content:flex-end;margin-top:10px"><button class="btn" data-x>Cancel</button><button class="btn primary" data-save>Save</button></div>`, m=>{
     m.querySelector("[data-x]").onclick=closeModal;
@@ -683,7 +683,7 @@ function initAbout(){
       <div class="grid g2" style="gap:6px 24px">${["Technical product marketing and positioning","Market research and evidence synthesis","Content auditing with an explicit rubric","Business analytics and financial modeling (TCO, NPV, ROI)","Experiment design and statistical analysis","Messaging frameworks for technical and business buyers","Data visualization and dashboard design","Responsible use of generative AI with claim verification"].map(c=>`<div class="small" style="padding:6px 0;border-bottom:1px solid var(--line)">${esc(c)}</div>`).join("")}</div>
     </div>
     <aside><dl>
-      <dt>Author</dt><dd>Ana Laura Nascimento Silva</dd>
+      <dt>Author</dt><dd>Ana Laura Nascimento</dd>
       <dt>Education</dt><dd>BBA in Marketing &amp; Business Analytics, Hult International Business School</dd>
       <dt>Project type</dt><dd>Independent Technical Product Marketing &amp; Business Analytics Case Study</dd>
       <dt>Year</dt><dd>2026</dd>

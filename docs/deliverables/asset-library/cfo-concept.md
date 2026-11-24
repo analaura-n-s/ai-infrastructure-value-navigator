@@ -35,4 +35,4 @@ Use the TCO & ROI Simulator with your own quotes; replace every illustrative def
 - [VR] NVIDIA Vera Rubin NVL72, NVIDIA (product page), 2026. https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.

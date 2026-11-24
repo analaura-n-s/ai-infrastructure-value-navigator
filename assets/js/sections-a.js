@@ -56,7 +56,7 @@ function initOverview(){
   $("#overview-body").innerHTML = `
   <article class="case">
     <header class="case-open">
-      <p class="byline">A case study by <a href="#/about">Ana Laura Nascimento Silva</a>, independent researcher and developer of this project</p>
+      <p class="byline">A case study by <a href="#/about">Ana Laura Nascimento</a>, independent researcher and developer of this project</p>
       <h2 class="display">Most enterprises now use AI. Far fewer can show what their AI infrastructure returns.</h2>
       <p class="lede">This case study asks how NVIDIA could turn complex infrastructure capabilities into value that a CFO, a CTO and a procurement lead can each check for themselves, so that more AI work moves from pilot to production.</p>
       <div class="case-cta">
@@ -130,7 +130,7 @@ function initOverview(){
     <section class="case-sec author" aria-labelledby="cs-author">
       <h3 class="sec-title" id="cs-author">About the author</h3>
       <div class="sec-body">
-        <p class="author-name">Ana Laura Nascimento Silva</p>
+        <p class="author-name">Ana Laura Nascimento</p>
         <p class="author-role">BBA in Marketing &amp; Business Analytics, Hult International Business School</p>
         <p>I developed this case study independently, as a portfolio project for technical product marketing. It is not affiliated with or reviewed by NVIDIA. Generative AI helped with code and drafts. How it was used, and how its output was checked, is documented in the <a href="#/workflow">AI Workflow</a>.</p>
         <p class="author-links"><a href="https://www.linkedin.com/in/analauranascimento/" target="_blank" rel="noopener noreferrer">LinkedIn ${icon("external-link")}</a><a href="https://github.com/analaura-n-s/ai-infrastructure-value-navigator" target="_blank" rel="noopener noreferrer">Source code ${icon("external-link")}</a><a href="#/about">About the project</a></p>
@@ -292,12 +292,12 @@ function renderBrief(){
     <div class="brief-sec"><h4>Potential implementation risks</h4>${li(b.risks)}</div>
     <div class="brief-sec"><h4>Relevant product documentation</h4>${b.docs.map(d=>`<div class="small">${icon("external-link")} <a href="${esc(SRC[d].url)}" target="_blank" rel="noopener noreferrer">${esc(SRC[d].title)}</a> <span class="muted">· ${esc(SRC[d].pub)} · ${esc(fmtDate(SRC[d].date))}</span></div>`).join("")}</div>
     <details class="brief-sec no-print"><summary class="small" style="cursor:pointer">Why these recommendations (rules applied)</summary>${li(b.rules)}</details>
-    <p class="tiny muted" style="margin-top:12px">Independent educational project, not affiliated with or endorsed by NVIDIA. Product facts are quoted from public NVIDIA documentation (verified ${VERIFIED_ON}); vendor performance claims are projections under footnoted configurations. Created by Ana Laura Nascimento Silva, 2026.</p>
+    <p class="tiny muted" style="margin-top:12px">Independent educational project, not affiliated with or endorsed by NVIDIA. Product facts are quoted from public NVIDIA documentation (verified ${VERIFIED_ON}); vendor performance claims are projections under footnoted configurations. Created by Ana Laura Nascimento, 2026.</p>
   </article>`;
 }
 function briefMd(b){
   const l = a => a.map(x=>`- ${x}`).join("\n");
-  return `# Customer Value Brief\n**${b.s.role} · ${b.s.industry}**  \n${b.s.workload} · ${b.s.challenge} · ${b.s.maturity}  \n_Generated ${b.date}. Educational output, not purchasing advice._\n\n## Value proposition\n${b.vp}\n\n## Customer pain point\n${b.pain}\n\n${b.industryCtx}\n\n## Relevant infrastructure capabilities\n${b.caps.map(x=>`- **${x.c.name}**: ${x.c.what.biz} (${x.c.metrics[0][0]}: ${x.c.metrics[0][1]} [${x.c.metrics[0][2]}])`).join("\n")}\n\n## Potential business benefits\n${l(b.benefits)}\n\n## Technical metrics to evaluate\n${l(b.techMetrics)}\n\n## Recommended evaluation criteria\n${b.stage}\n${l(b.evalCrit)}\n\n## Questions for infrastructure providers\n${l(b.qs)}\n\n## Potential implementation risks\n${l(b.risks)}\n\n## Documentation\n${b.docs.map(d=>`- [${SRC[d].title}](${SRC[d].url}) (${SRC[d].pub}, ${fmtDate(SRC[d].date)})`).join("\n")}\n\n## Rules applied\n${l(b.rules)}\n\n---\nIndependent educational portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with or endorsed by NVIDIA.\n`;
+  return `# Customer Value Brief\n**${b.s.role} · ${b.s.industry}**  \n${b.s.workload} · ${b.s.challenge} · ${b.s.maturity}  \n_Generated ${b.date}. Educational output, not purchasing advice._\n\n## Value proposition\n${b.vp}\n\n## Customer pain point\n${b.pain}\n\n${b.industryCtx}\n\n## Relevant infrastructure capabilities\n${b.caps.map(x=>`- **${x.c.name}**: ${x.c.what.biz} (${x.c.metrics[0][0]}: ${x.c.metrics[0][1]} [${x.c.metrics[0][2]}])`).join("\n")}\n\n## Potential business benefits\n${l(b.benefits)}\n\n## Technical metrics to evaluate\n${l(b.techMetrics)}\n\n## Recommended evaluation criteria\n${b.stage}\n${l(b.evalCrit)}\n\n## Questions for infrastructure providers\n${l(b.qs)}\n\n## Potential implementation risks\n${l(b.risks)}\n\n## Documentation\n${b.docs.map(d=>`- [${SRC[d].title}](${SRC[d].url}) (${SRC[d].pub}, ${fmtDate(SRC[d].date)})`).join("\n")}\n\n## Rules applied\n${l(b.rules)}\n\n---\nIndependent educational portfolio project by Ana Laura Nascimento (2026). Not affiliated with or endorsed by NVIDIA.\n`;
 }
 
 

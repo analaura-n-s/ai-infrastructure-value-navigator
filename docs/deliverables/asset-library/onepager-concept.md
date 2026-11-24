@@ -31,4 +31,4 @@ Run your numbers through an open cost model, then review the result with finance
 - [DSX] NVIDIA Releases Vera Rubin DSX AI Factory Reference Design and Omniverse DSX Digital Twin Blueprint, NVIDIA Newsroom, Mar 16, 2026. https://nvidianews.nvidia.com/news/nvidia-releases-vera-rubin-dsx-ai-factory-reference-design-and-omniverse-dsx-digital-twin-blueprint-with-broad-industry-support
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.
