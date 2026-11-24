@@ -33,4 +33,4 @@ Track calculator start rate and model export rate (see KPI framework).
 - [MCK26] The state of AI in 2026: On the road to ROI, McKinsey & Company (QuantumBlack), Aug 25, 2026. https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.

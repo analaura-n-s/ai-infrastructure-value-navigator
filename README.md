@@ -135,4 +135,4 @@ See the **Research still pending** list in the Methodology section of the app. I
 
 ---
 
-Independent Technical Product Marketing & Business Analytics Case Study | Created by Ana Laura Nascimento Silva | 2026
+Independent Technical Product Marketing & Business Analytics Case Study | Created by Ana Laura Nascimento | 2026

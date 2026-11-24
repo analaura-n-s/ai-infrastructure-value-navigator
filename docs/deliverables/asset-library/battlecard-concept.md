@@ -35,4 +35,4 @@ AMD Instinct MI355X with ROCm [AMD355] [ROCM]; Google Cloud TPU7x (Google Cloud 
 - [INF] AWS Inferentia, Amazon Web Services (product page), Oct 26, 2026. https://aws.amazon.com/ai/machine-learning/inferentia/
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.

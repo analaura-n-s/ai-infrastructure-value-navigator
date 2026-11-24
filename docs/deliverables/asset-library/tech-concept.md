@@ -40,4 +40,4 @@ Agentic and long-context inference; large mixture-of-experts training. NVIDIA st
 - [VRPR] NVIDIA Vera Rubin Ramps Into Full Production to Power Agentic AI Factories Worldwide, NVIDIA Newsroom, May 31, 2026. https://nvidianews.nvidia.com/news/vera-rubin-full-production-agentic-ai-factory
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.

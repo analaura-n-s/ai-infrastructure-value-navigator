@@ -39,4 +39,4 @@ Registrations from target accounts; attendance rate; calculator starts within 14
 - [DEL26] The State of AI in the Enterprise (2026), Deloitte, 2026. https://www.deloitte.com/us/en/what-we-do/capabilities/applied-artificial-intelligence/content/state-of-ai-in-the-enterprise.html
 
 ---
-Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA.
+Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA.

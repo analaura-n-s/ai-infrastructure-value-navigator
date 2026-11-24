@@ -1,5 +1,5 @@
 # Strategic Recommendations: The Enterprise AI Infrastructure Adoption Gap
-_Independent portfolio project by Ana Laura Nascimento Silva (2026). Not affiliated with NVIDIA._
+_Independent portfolio project by Ana Laura Nascimento (2026). Not affiliated with NVIDIA._
 
 ## Key findings
 ### F1. The adoption gap is measured, not assumed
