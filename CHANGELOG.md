@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.0 (Nov 24, 2026): editorial refinement
+
+A design and presentation pass. No features, sources or calculations were added or changed.
+
+- The Executive Overview is now **The Case Study**: an editorial page with an opening statement, a research-status note, a capability-to-value SVG framework, and three sections (The problem, The evidence, My approach) replacing the seven-question list.
+- The author is introduced at the top and in an "About the author" section.
+- The **Value Navigator** sits next to the case study at the top of the navigation and is featured on the case study page.
+- The workspace groups start collapsed; only the group holding the current section is open.
+- "Reset all data" moved into a **Settings** menu as "Delete saved data", still behind a confirmation dialog.
+- Higher contrast for secondary text, sentence-case labels instead of monospace capitals, IBM Plex Serif for headings, more whitespace and plainer section titles.
+- Removed repeated section labels above page titles.
+- Regression test extended to 56 checks (navigation and settings).
+
 ## 2.0.0 (Nov 24, 2026): case study upgrade
 
 The app was rebuilt from a single-file demo into an evidence-labeled case study on the Enterprise AI Infrastructure Adoption Gap.

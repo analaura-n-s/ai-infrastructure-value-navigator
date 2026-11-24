@@ -8,7 +8,7 @@ A working application that asks where enterprise AI infrastructure adoption stal
 
 > **Independence.** This is an independent educational portfolio project. It is not affiliated with, sponsored by or endorsed by NVIDIA Corporation, and NVIDIA has not reviewed it. NVIDIA, Blackwell, Vera Rubin, NVLink and other marks belong to their owners. Simulated financial results are not NVIDIA pricing or performance data. Concept assets are the author's own work, not NVIDIA material.
 
-![Executive Overview](docs/screenshots/overview.png)
+![The Case Study](docs/screenshots/overview.png)
 
 ## Research question
 
@@ -49,20 +49,20 @@ Cost per productive GPU-hour  = (CAPEX ÷ lifespan + OPEX) ÷ (GPUs × hours × 
 
 ## What's inside
 
-Navigation has four groups and fifteen sections.
+The app has two layers. **The Case Study** is an editorial overview a reader can take in within a minute, with the **Value Navigator** as its central interactive piece. The **workspace** below it holds the full research and tools in four groups, each collapsed until you open it.
 
 | Group | Section | What it does |
 |---|---|---|
-| Research | Executive Overview | The research question, seven questions answered, the research journey and headline evidence |
-| | Market Intelligence | Evidence register across nine adoption-gap dimensions, with filters by dimension, content type and evidence status |
+| Case study | The Case Study | The problem, the evidence and the approach, an illustrated capability-to-value framework, the author and the research status |
+| | Value Navigator | Customer value brief by role, industry, workload, challenge and maturity |
+| Research | Market Intelligence | Evidence register across nine adoption-gap dimensions, with filters by dimension, content type and evidence status |
 | | Competitive Intelligence | Vendor documentation for NVIDIA, AMD Instinct, Google Cloud TPU and AWS Trainium/Inferentia, with expandable sources and analyst notes |
 | | Content Audit | 19 real NVIDIA assets: dashboard, dynamic findings, seven charts, heatmap, coverage matrix, sortable and editable records, CSV import and export |
 | Product & Strategy | Infrastructure Explorer | Full-stack architecture map with technical and business explanations |
 | | Messaging Framework | Eight audiences with profile, value proposition, objectives, pain points, objections, proof points and CTA, plus a feature-to-benefit matrix |
 | | Strategic Recommendations | Executive summary, causal problem tree, findings, opportunities, Impact vs Effort matrix, 90-day roadmap and KPI framework |
 | | Asset Library | Six concept documents (executive one-pager, CFO briefing, technical overview, sales battlecard, landing page, webinar campaign) |
-| Interactive Tools | Value Navigator | Customer value brief by role, industry, workload, challenge and maturity |
-| | TCO & ROI Simulator | Two-scenario financial model with sensitivity analysis and CSV export |
+| Tools | TCO & ROI Simulator | Two-scenario financial model with sensitivity analysis and CSV export |
 | | Messaging Studio | Rule-based message builder with a claim-check panel |
 | | Messaging Experiment Lab | Study protocol, power calculator, CSV import and a Welch/Holm analysis dashboard |
 | Documentation | AI Workflow | Eight-step human-in-the-loop workflow, rule-based demonstration, case study, claim verification table and AI activity log |
@@ -103,7 +103,7 @@ The files in [`docs/deliverables/`](docs/deliverables/) are exported from the ap
 - `index.html` holds the shell and static sections. Scripts load in order: `assets/js/vendor/chart.umd.min.js`, `data.js` (Phase 1 data), `research.js` (sources, evidence, audit, strategy, framework, assets, experiment, workflow), `core.js` (helpers, CSV, charts, statistics), `sections-a.js`, `sections-b.js`, `main.js` (navigation and boot).
 - Plain scripts rather than ES modules, so the app also runs when opened directly from disk.
 - Chart.js 4.4.7 (MIT) is bundled locally. Icons are an inline Lucide sprite (ISC). Fonts are IBM Plex from Google Fonts, with system fallbacks.
-- Inputs, edits, notes and logs are saved only in the browser's `localStorage` (prefix `aivn.`) and can be cleared with **Reset all data**.
+- Inputs, edits, notes and logs are saved only in the browser's `localStorage` (prefix `aivn.`) and can be cleared from **Settings → Delete saved data** (with a confirmation step).
 - CSV export guards against spreadsheet formula injection. Imports validate every row and report skipped rows.
 - Keyboard-navigable with visible focus, labeled controls, a modal focus trap, responsive layouts down to 360 px, and print layouts for the brief, the financial report, the strategy and each concept document.
 
@@ -115,7 +115,7 @@ Clone the repository and open `index.html` in a modern browser. No server is nee
 
 ```
 npm install playwright
-node tests/regression.js          # 49 checks: every view, calculations, statistics, CSV, audit editing, experiment import, workflow approval, mobile, print
+node tests/regression.js          # 56 checks: every view, calculations, statistics, CSV, audit editing, experiment import, workflow approval, navigation, settings, mobile, print
 node tests/export-deliverables.js # regenerates docs/deliverables/ from the app
 ```
 

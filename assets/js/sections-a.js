@@ -14,63 +14,138 @@ const CM_NOTES = {
 };
 
 /* ---------- 1. Executive Overview (editorial) ---------- */
+function valueMapSvg(){
+  const cols = [
+    {x:24,  h:"What the platform provides", n:["Rack-scale GPU compute","NVLink interconnect","Networking and storage","Software stack (CUDA, NIM, Dynamo)"]},
+    {x:352, h:"What changes for the customer", n:["Throughput per rack","GPU utilization","Time to deploy","Energy per token"]},
+    {x:680, h:"What a buyer can take to finance", n:["Cost per million tokens","Total cost of ownership","Time to production","Capacity within the power budget"]}
+  ];
+  const W=256, H=46, Y0=78, GAP=70;
+  const pos = (c,i)=>({x:cols[c].x, y:Y0+i*GAP});
+  const links = [[0,0,1,0],[0,1,1,0],[0,2,1,1],[0,3,1,1],[0,3,1,2],[0,0,1,3],[1,0,2,0],[1,1,2,0],[1,1,2,1],[1,2,2,2],[1,3,2,3],[1,3,2,1]];
+  const hot = k => (k[0]===0&&k[1]===1&&k[3]===0) || (k[0]===1&&k[1]===0&&k[3]===0);
+  const path = ([c1,i1,c2,i2])=>{ const a=pos(c1,i1), b=pos(c2,i2); const sx=a.x+W, sy=a.y+H/2, tx=b.x, ty=b.y+H/2, m=(sx+tx)/2; return `M${sx},${sy} C${m},${sy} ${m},${ty} ${tx-4},${ty}`; };
+  const isHotNode = (c,i)=> (c===0&&i===1)||(c===1&&i===0)||(c===2&&i===0);
+  const gapX = 680-36;
+  return `<svg class="vmap" viewBox="0 0 960 400" role="img" aria-labelledby="vmapT vmapD">
+    <title id="vmapT">From infrastructure capability to business value</title>
+    <desc id="vmapD">Three columns. Platform capabilities (rack-scale GPU compute, NVLink interconnect, networking and storage, software stack) lead to customer outcomes (throughput per rack, GPU utilization, time to deploy, energy per token), which lead to business measures a finance team uses (cost per million tokens, total cost of ownership, time to production, capacity within the power budget). The path from NVLink to throughput to cost per million tokens is highlighted. A dashed line before the third column marks where most of the audited pages stop.</desc>
+    <defs><pattern id="vmapHatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#2B302B" stroke-width="2"/></pattern>
+      <marker id="vmArr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#5A6159"/></marker>
+      <marker id="vmArrHot" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8z" fill="#76B900"/></marker></defs>
+    <rect x="${gapX-14}" y="56" width="28" height="${GAP*3+H+44}" fill="url(#vmapHatch)"/>
+    <line x1="${gapX}" y1="50" x2="${gapX}" y2="${Y0+GAP*3+H+28}" stroke="#D9A441" stroke-width="1" stroke-dasharray="3 4"/>
+    <text class="gap-l" x="${gapX}" y="${Y0+GAP*3+H+46}" text-anchor="middle">Where most audited pages stop</text>
+    ${cols.map(c=>`<text class="col-h" x="${c.x}" y="40">${esc(c.h)}</text>`).join("")}
+    ${links.map(k=>`<path class="lk ${hot(k)?"hot":""}" d="${path(k)}" marker-end="url(#${hot(k)?"vmArrHot":"vmArr"})"/>`).join("")}
+    ${cols.map((c,ci)=>c.n.map((t,i)=>{ const p=pos(ci,i); return `<g class="nd ${isHotNode(ci,i)?"hot":""} ${ci===2?"biz":""}"><rect x="${p.x}" y="${p.y}" width="${W}" height="${H}" rx="2"/><text x="${p.x+14}" y="${p.y+H/2+5}">${esc(t)}</text></g>`; }).join("")).join("")}
+  </svg>`;
+}
+
 function initOverview(){
   const audN = CA_REAL.length;
-  const QA = [
-    ["What problem does this project investigate?", `Enterprises are adopting AI faster than they are capturing its value. Use is near-universal, but 44% report scaling AI across the enterprise and 37% report a positive EBIT contribution ${cite("MCK26")}. This project calls that the Enterprise AI Infrastructure Adoption Gap and asks what product marketing can do about it.`],
-    ["Why does it matter?", `Infrastructure is the largest and least reversible part of AI spending. Global corporate AI investment reached a reported $581.69B in 2025 ${cite("AIX26")}. When returns are hard to show, the risk moves to the buyer's CFO, and vendor claims are judged on whether they can be audited.`],
-    ["What research was conducted?", `Secondary research across nine adoption-gap dimensions (${SOURCES.filter(s=>/research/i.test(s.type)).length} industry studies, each logged with date, sample and method), a page-by-page audit of ${audN} public NVIDIA assets scored on a seven-dimension rubric, and a review of competitor documentation. No interviews or experiments have been run yet; both are designed and listed as next steps.`],
-    ["What was found?", `Buyers lack unit-economics instruments: 44% track per-unit inference cost ${cite("DEL26")}, and a third of GPU-operating respondents in a self-selected survey don't measure utilization ${cite("VBP26")}. In the NVIDIA pages reviewed, technical credibility consistently outscores business value, no asset targets the CFO directly, and some headline baselines differ across pages.`],
-    ["What is the proposed solution?", `A value layer on top of NVIDIA's technical story: role-specific messaging, an auditable cost-per-token and TCO kit, a claim-governance standard, and tools that let a buyer test claims against their own numbers. The Value Navigator and TCO & ROI Simulator in this app are working prototypes of that idea.`],
-    ["What are the recommendations?", `Seven opportunities, prioritized only where evidence supports them, with an impact and effort matrix and a 90-day plan. The top two are the TCO and cost-per-token kit for CFOs and procurement, and a claim-governance standard for performance claims.`],
-    ["How would success be evaluated?", `A funnel KPI framework (awareness to adoption) with formulas and data sources, and a pre-designed message experiment comparing feature-focused and benefit-focused copy. No NVIDIA metrics are claimed or estimated.`]
-  ];
-  const J = [["01","Research","Market evidence across nine dimensions","market"],["02","Diagnosis","Content audit of NVIDIA assets","content"],["03","Strategy","Findings, causal framework, priorities","strategy"],["04","Solution","Messaging, assets and buyer tools","framework"],["05","Validation","Experiment design and KPIs","experiment"]];
-  const STATS = [
-    ["44%","say AI is scaling across the enterprise, up from 38%","MCK26","n=1,719, 97 nations, May to Jun 2026",true],
-    ["37%","report a positive EBIT contribution from AI","MCK26","n=1,719",false],
-    ["44%","track per-unit inference cost, while 71% track total inference spend","DEL26","n=3,500 senior leaders; date unconfirmed",false],
-    ["33%","of GPU-operating respondents say they don't measure utilization","VBP26","n=128, self-selected, Oct 2026",false],
-    ["~2/3","of data center operators report staffing difficulty","UPT25","Annual operator survey",false]
+  const R = realAudit(); const mean = k => avg(R.map(r=>+r[k]));
+  const tech = mean("techCred").toFixed(1), biz = mean("bizValue").toFixed(1);
+  const cfo = R.filter(r=>r.audience==="CFO").length;
+  const WS = [
+    ["Research","market","Market evidence across nine dimensions, competitor documentation and the audit of "+audN+" NVIDIA pages."],
+    ["Product and strategy","strategy","Findings, a causal problem tree, prioritized opportunities, the messaging framework and six concept documents."],
+    ["Tools","tco","A two-scenario TCO and ROI model, a rule-based messaging studio and an experiment lab ready for real data."],
+    ["Documentation","method","Methods, all "+SOURCES.length+" sources, how AI was used and checked, and what research is still open."]
   ];
   $("#overview-body").innerHTML = `
-    <div class="hero">
-      <div>
-        <div class="kicker">Independent technical product marketing and business analytics case study</div>
-        <h2>The Enterprise AI Infrastructure Adoption Gap</h2>
-        <p class="lead">How can NVIDIA translate complex AI infrastructure capabilities into clear, measurable, audience-specific value, so that more enterprises move from AI pilots to scaled production?</p>
-        <div class="btn-row" style="margin-top:18px">
-          <a class="btn primary" href="#/navigator">${icon("compass")}Explore the Solution</a>
-          <a class="btn" href="#/strategy">${icon("file-text")}View Strategic Findings</a>
+  <article class="case">
+    <header class="case-open">
+      <p class="byline">A case study by <a href="#/about">Ana Laura Nascimento Silva</a>, independent researcher and developer of this project</p>
+      <h2 class="display">Most enterprises now use AI. Far fewer can show what their AI infrastructure returns.</h2>
+      <p class="lede">This case study asks how NVIDIA could turn complex infrastructure capabilities into value that a CFO, a CTO and a procurement lead can each check for themselves, so that more AI work moves from pilot to production.</p>
+      <div class="case-cta">
+        <a class="btn primary lg" href="#/navigator">Try the Value Navigator</a>
+        <a class="text-link" href="#/strategy">Read the recommendations ${icon("arrow-right")}</a>
+      </div>
+      <p class="status"><span class="dot" aria-hidden="true"></span><span><b>Research status.</b> Secondary research and a content audit of ${audN} public NVIDIA pages are done. The audit scores still need my validation, and the buyer interviews and message experiment are designed but not yet run. <a href="#/method">What is still open</a></span></p>
+    </header>
+
+    <figure class="case-fig">
+      <div class="vmap-wrap">${valueMapSvg()}</div>
+      <figcaption>The framework behind the project: each capability matters to a buyer only once it reaches the right-hand column. This is my own mapping, not an NVIDIA diagram. The highlighted path is the one NVIDIA quantifies for Vera Rubin NVL72: one-tenth the cost per million tokens of GB200 NVL72 for a stated model and context length, which is a vendor projection ${cite("VR")}. The dashed line marks where most of the audited pages stop, based on the content audit, whose scores are still pending my validation.</figcaption>
+    </figure>
+
+    <section class="case-sec" aria-labelledby="cs-problem">
+      <h3 class="sec-title" id="cs-problem">The problem</h3>
+      <div class="sec-body">
+        <p>AI adoption is close to universal, but value is not keeping up. In McKinsey's 2026 survey, 44% of respondents say AI is scaling across their enterprise and 37% report a positive EBIT contribution ${cite("MCK26")}. For the other 63%, AI has not yet shown up as a positive contribution to EBIT.</p>
+        <p>Infrastructure makes the gap expensive. It is a large, long-lived commitment, and the decision is shared between people who read specifications and people who read budgets. A message that convinces an engineer does not, on its own, give a CFO something to sign.</p>
+        <p class="pull">This project calls that the <em>Enterprise AI Infrastructure Adoption Gap</em>, and asks what product marketing can do about it.</p>
+      </div>
+    </section>
+
+    <section class="case-sec" aria-labelledby="cs-evidence">
+      <h3 class="sec-title" id="cs-evidence">The evidence</h3>
+      <div class="sec-body">
+        <div class="evi">
+          <div class="evi-n">37%</div>
+          <div><p class="evi-h">Use is not the bottleneck. Return is.</p><p>Regular AI use reached 88% of organizations in 2025, while the share reporting a positive EBIT contribution was 39% in 2025 and 37% in 2026 ${cite("MCK25")} ${cite("MCK26")}.</p></div>
         </div>
-      </div>
-      <aside>
-        <dl>
-          <dt>Author</dt><dd>Ana Laura Nascimento Silva</dd>
-          <dt>Evidence base</dt><dd>${SOURCES.length} logged sources; ${audN} NVIDIA assets audited</dd>
-          <dt>Sources checked</dt><dd>${esc(VERIFIED_ON)}</dd>
-          <dt>Open items</dt><dd>Audit scores pending author validation; buyer interviews and the message experiment not yet run</dd>
-        </dl>
-      </aside>
-    </div>
-    <nav class="journey" aria-label="Project journey">${J.map(j=>`<button data-go="${j[3]}"><span class="n">${j[0]}</span><b>${j[1]}</b><span>${j[2]}</span></button>`).join("")}</nav>
-    <div class="grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:36px" id="ovGrid">
-      <div>
-        <div class="section-h"><h3>The case in seven questions</h3></div>
-        ${QA.map((q,i)=>`<div class="qa"><div class="n">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(q[0])}</h3><p>${q[1]}</p></div></div>`).join("")}
-        ${analystNote("overview","Your summary of the case in your own words, or what you would tell a hiring manager in two minutes.")}
-      </div>
-      <div>
-        <div class="section-h"><h3>Numbers behind the gap</h3><span class="meta">Surveys differ in sample and wording; do not compare across rows</span></div>
-        <div class="stat-list">${STATS.map(s=>`<div class="stat" style="grid-template-columns:84px minmax(0,1fr)"><div class="v ${s[4]?"hl":""}">${esc(s[0])}</div><div class="t">${esc(s[1])}<small>${srcLink(s[2],true)} · ${esc(s[3])}</small></div></div>`).join("")}</div>
-        <div class="section" style="margin-top:24px">
-          <div class="section-h"><h3>Is AI value keeping pace with AI use?</h3>${ev("vp")}</div>
-          <p class="chart-q">Share of McKinsey respondents at each stage, 2025 and 2026 surveys.</p>
+        <div class="evi">
+          <div class="evi-n">44%</div>
+          <div><p class="evi-h">Buyers lack the instruments to judge value.</p><p>Deloitte reports that 71% of leaders track total inference spend but only 44% track cost per unit ${cite("DEL26")}. In a smaller, self-selected survey, a third of GPU-operating respondents said they do not measure utilization ${cite("VBP26")}.</p></div>
+        </div>
+        <div class="evi">
+          <div class="evi-n">${tech}<span> vs </span>${biz}</div>
+          <div><p class="evi-h">NVIDIA's public pages speak to engineers first.</p><p>Across the ${audN} NVIDIA pages audited for this project, technical credibility averages ${tech} out of 5 and business value ${biz}. ${cfo===0?"None is written primarily for a CFO.":cfo+" are written primarily for a CFO."} These scores are an independent assessment that I have not yet validated. <a href="#/content">See the audit</a></p></div>
+        </div>
+        <figure class="sec-chart">
           <div class="chart-box"><canvas id="chFunnel" role="img" aria-label="Bar chart: regular AI use 88% (2025); scaling 33% (2025) and 44% (2026); positive EBIT 39% and 37%; high performers 6% and 6%."></canvas></div>
-          <p class="tiny dim" style="margin-top:8px">McKinsey, The state of AI 2025 (n=1,993) and 2026 (n=1,719). The 2026 AI-use figure is reported only as 'nearly nine in ten', so only 2025 is plotted. The 2025 scaling figure is reported as 'one-third'. ${cite("MCK25")} ${cite("MCK26")}</p>
+          <figcaption>Share of McKinsey respondents at each stage. The 2026 survey reports AI use only as "nearly nine in ten", so only 2025 is plotted for that bar. Samples: n=1,993 (2025) and n=1,719 (2026). ${cite("MCK25")} ${cite("MCK26")}</figcaption>
+        </figure>
+        <p class="more"><a href="#/market">All evidence, with samples and limitations ${icon("arrow-right")}</a></p>
+      </div>
+    </section>
+
+    <section class="case-sec" aria-labelledby="cs-approach">
+      <h3 class="sec-title" id="cs-approach">My approach</h3>
+      <div class="sec-body">
+        <p>The project treats value as something a buyer should be able to verify, not just read. It moves from evidence to a diagnosis, then to priorities, and ends with tools that put the buyer's own numbers next to the vendor's claims.</p>
+        <dl class="steps">
+          <dt><a href="#/market">Map the evidence</a></dt><dd>${SOURCES.length} sources across nine adoption-gap dimensions, each logged with its sample, date and limits.</dd>
+          <dt><a href="#/content">Audit the messaging</a></dt><dd>${audN} public NVIDIA pages, recorded with verbatim excerpts and scored on a seven-part rubric.</dd>
+          <dt><a href="#/strategy">Set priorities</a></dt><dd>Seven opportunities, kept only where a finding supports them, with a 90-day plan and KPIs.</dd>
+          <dt><a href="#/navigator">Build tools a buyer can check</a></dt><dd>A value brief by role and an open cost model, both showing their sources and assumptions.</dd>
+        </dl>
+        <div class="feature-tool">
+          <div>
+            <p class="ft-k">The central piece</p>
+            <p class="ft-h">Value Navigator</p>
+            <p>Choose a role, industry, workload, challenge and AI maturity. The Navigator returns a value brief with the capabilities that matter to that buyer, the metrics to evaluate, the questions to ask providers, the risks to plan for and links to the product documentation. It runs on transparent rules, not a live AI model.</p>
+          </div>
+          <div class="ft-a">
+            <a class="btn primary" href="#/navigator">Open the Value Navigator</a>
+            <a class="text-link" href="#/tco">Or start with the TCO & ROI Simulator ${icon("arrow-right")}</a>
+          </div>
         </div>
       </div>
-    </div>`;
+    </section>
+
+    <section class="case-sec author" aria-labelledby="cs-author">
+      <h3 class="sec-title" id="cs-author">About the author</h3>
+      <div class="sec-body">
+        <p class="author-name">Ana Laura Nascimento Silva</p>
+        <p class="author-role">BBA in Marketing &amp; Business Analytics, Hult International Business School</p>
+        <p>I developed this case study independently, as a portfolio project for technical product marketing. It is not affiliated with or reviewed by NVIDIA. Generative AI helped with code and drafts. How it was used, and how its output was checked, is documented in the <a href="#/workflow">AI Workflow</a>.</p>
+        <p class="author-links"><a href="https://www.linkedin.com/in/analauranascimento/" target="_blank" rel="noopener noreferrer">LinkedIn ${icon("external-link")}</a><a href="https://github.com/analaura-n-s/ai-infrastructure-value-navigator" target="_blank" rel="noopener noreferrer">Source code ${icon("external-link")}</a><a href="#/about">About the project</a></p>
+      </div>
+    </section>
+
+    <section class="case-sec deeper" aria-labelledby="cs-deeper">
+      <h3 class="sec-title" id="cs-deeper">Go deeper</h3>
+      <div class="sec-body">
+        <p>Everything above is drawn from the workspace, where each number links to its source and each judgement is labeled.</p>
+        <ul class="ws">${WS.map(w=>`<li><a href="#/${w[1]}">${esc(w[0])}</a><span>${esc(w[2])}</span></li>`).join("")}</ul>
+        <details class="notes-d"><summary>Author notes</summary>${analystNote("overview","Your summary of the case in your own words, or what you would tell a hiring manager in two minutes.")}</details>
+      </div>
+    </section>
+  </article>`;
   $("#overview-body").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if(b) location.hash="#/"+b.dataset.go; });
   chart("chFunnel", {type:"bar", data:{labels:[["Regular","AI use"],["Scaling","enterprise-wide"],["Positive","EBIT impact"],["AI high","performers"]], datasets:[
       {label:"2025 survey", data:[88,33,39,6], backgroundColor:C.gray2},

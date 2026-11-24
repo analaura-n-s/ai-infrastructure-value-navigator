@@ -146,6 +146,23 @@ const tmp = (name, text) => { const f = path.join(os.tmpdir(), "aivn-" + name); 
   await page.click("#modal [data-save]");
   ok((await page.$$eval("#logTbl tbody tr", r => r.length)) === before + 1, "AI log entry added");
 
+  console.log("Navigation and settings");
+  await go("overview");
+  ok(await page.$$eval(".nav-group", g => g.every(x => x.classList.contains("closed"))), "workspace groups collapsed on the case study");
+  await go("content");
+  ok(await page.$$eval(".nav-group", g => g.filter(x => !x.classList.contains("closed")).map(x => x.dataset.g).join()) === "research", "only the active group is open");
+  await page.click(".nav-group[data-g='tools'] .grp");
+  ok(!(await page.$eval(".nav-group[data-g='tools']", x => x.classList.contains("closed"))), "a group can be opened by hand");
+  await page.evaluate(() => localStorage.setItem("aivn.probe", "1"));
+  ok(await page.isHidden("#settingsMenu"), "settings menu starts closed");
+  await page.click("#settingsBtn");
+  ok(await page.isVisible("#resetAllBtn"), "settings menu opens");
+  await page.click("#resetAllBtn");
+  ok((await page.textContent("#modal")).includes("cannot be undone"), "deleting data asks for confirmation");
+  await page.click("#modal [data-x]");
+  ok(await page.evaluate(() => localStorage.getItem("aivn.probe") === "1"), "cancel keeps saved data");
+  await page.evaluate(() => localStorage.removeItem("aivn.probe"));
+
   console.log("Keyboard, mobile and print");
   await go("overview");
   await page.keyboard.press("Tab");
