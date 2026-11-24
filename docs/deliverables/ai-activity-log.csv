@@ -1,0 +1,5 @@
+date,tool,task,input,output,verify,edits,by
+2026-11-24,Claude (Claude Code),Fetched and summarized 23 NVIDIA pages for the content audit,Public NVIDIA URLs,Page-by-page notes with verbatim excerpts,Excerpts kept verbatim; partial reads flagged,,Logged by Claude during the build
+2026-11-24,Claude (Claude Code),Drafted rubric scores for 19 audited assets,Audit notes and rubric,Scores 1 to 5 on seven dimensions,Pending: author to validate each score,,Logged by Claude during the build
+2026-11-24,Claude (Claude Code),"Read VentureBeat, Stanford AI Index and NVIDIA annual review for market evidence",Source URLs,Statistics with sample and method,Checked against source pages; limitations recorded,,Logged by Claude during the build
+2026-11-24,Claude (Claude Code),Drafted Vera Rubin case-study messaging and claim table,"VR product page, VRPR press release","Five message drafts, eight claim rows",Numbers checked against source; human review pending,,Logged by Claude during the build
